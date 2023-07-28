@@ -1,4 +1,4 @@
 CC = gcc
-CFLAGS = -g -Wall -Werror -std=c99 -m64
+CFLAGS = -g -Wall -Wextra -pedantic -m64
 wc: main.c
 	$(CC) $(CFLAGS) -o wclone main.c
