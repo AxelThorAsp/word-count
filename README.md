@@ -5,5 +5,5 @@
 ## usage
 ```bash
 $ make
-$ ./wclone
+$ ./wclone < foo
 ```
