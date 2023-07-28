@@ -1,9 +1,8 @@
 # word-count
 
-`word-count` is an open source clone of `wc` :)
-
+Finally! An open source portable tiny version of `wc`.
 ## usage
 ```bash
 $ make
-$ ./wclone < foo
+$ ./wclone foo
 ```
