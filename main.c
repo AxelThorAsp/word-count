@@ -8,7 +8,7 @@ void print_usage(char **argv);
 FILE *open_file(char *filepath) {
     FILE *file = fopen(filepath, "r");
     if (file == NULL) {
-        fprintf(stderr, "ERROR: Could not open file %s", filepath);
+        fprintf(stderr, "ERROR: Could not open file %s\n", filepath);
         exit(1);
     }
     return file;
