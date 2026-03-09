@@ -15,38 +15,26 @@ FILE *open_file(char *filepath) {
 
 }
 
-void count_lines(FILE *file) {
+void count_all(FILE *file, int lflag, int wflag, int mflag) {
     int c;
-    unsigned long int nl = 0lu;
-    while ((c = fgetc(file)) != EOF)
-        if (c == '\n')
-            ++nl;
-    printf("lines: %lu\n", nl);
-}
-
-void count_words(FILE *file) {
-    int c, currword;
-    unsigned long int w = 0lu;
-    currword = 0;
+    int in_word = 0;
+    unsigned long int nl = 0lu, w = 0lu, ch = 0lu;
     while ((c = fgetc(file)) != EOF) {
-        if (isprint(c) && !isspace(c)) {
-           ++currword; 
-        }
-        else if (currword > 0){
-            ++w;
-            currword = 0;
+        if (mflag) ++ch;
+        if (lflag && c == '\n') ++nl;
+        if (wflag) {
+            if (isprint(c) && !isspace(c)) {
+                in_word = 1;
+            } else if (in_word) {
+                ++w;
+                in_word = 0;
+            }
         }
     }
-    printf("words: %lu\n", w);
-}
-
-void count_chars(FILE *file) {
-    int c;
-    unsigned long int ch = 0lu;
-    while ((c = fgetc(file)) != EOF) {
-        ++ch;
-    }
-    printf("characters: %lu\n", ch);
+    if (wflag && in_word) ++w;
+    if (lflag) printf("lines: %lu\n", nl);
+    if (wflag) printf("words: %lu\n", w);
+    if (mflag) printf("characters: %lu\n", ch);
 }
 
 int main (int argc, char **argv) {
@@ -86,17 +74,7 @@ int main (int argc, char **argv) {
     for (int i = optind; i < argc; i++) {
         printf("%s:\n", argv[i]);
         FILE *fp = open_file(argv[i]);
-        if (lflag == 1) {
-            count_lines(fp);
-            rewind(fp);
-        }
-        if (wflag == 1) {
-            count_words(fp);
-            rewind(fp);
-        }
-        if (mflag == 1) {
-            count_chars(fp);
-        }
+        count_all(fp, lflag, wflag, mflag);
         fclose(fp);
     }
     return 0;
